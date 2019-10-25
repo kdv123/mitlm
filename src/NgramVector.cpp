@@ -45,7 +45,8 @@ namespace mitlm {
 struct NgramIndexCompare {
     const NgramVector &_vector;
     NgramIndexCompare(const NgramVector &vector) : _vector(vector) { }
-    bool operator()(int i, int j) {
+    // KDV: changed to use typedef for this since it needs to be bigger than an int for large LMs
+    bool operator()(NgramIndex i, NgramIndex j) {
         assert((size_t)i < _vector.size() && (size_t)j < _vector.size());
         return (_vector._hists[i] == _vector._hists[j]) ?
             (_vector._words[i] < _vector._words[j]) :
