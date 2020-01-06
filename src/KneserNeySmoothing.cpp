@@ -99,8 +99,18 @@ void KneserNeySmoothing::Initialize(NgramLM *pLM, size_t order) {
     _discParams.resize(_discOrder + 1, 0);
     for (size_t i = 1; i < _discParams.length(); i++) {
         _discParams[i] = (n[i] == 0) ? i : (i - (i+1) * Y * n[i+1] / n[i]);
-        if (_discParams[i] < 0) _discParams[i] = 0;
-        if (_discParams[i] > i) _discParams[i] = i;
+
+        //if (_discParams[i] < 0) _discParams[i] = 0;
+	// KDV changed to implement KenLM style fallback for negative discounts
+	// This happens when training 2-grams and such on letter data
+	if (_discParams[i] < 0) {
+	    if (i == 1)
+	      _discParams[i] = 0.5;
+	    else if (i == 2)                                                                                                          _discParams[i] = 1.0;
+	    else                                                                                                                      _discParams[i] = 1.5;
+	}
+
+	if (_discParams[i] > i) _discParams[i] = i;
     }
 
     // Set default parameters.

@@ -50,8 +50,8 @@ typedef unsigned int   uint;
 
 // Defines the size of basic types.
 typedef int    VocabIndex;
-typedef long   NgramIndex;    // KDV increased from an int, was crashing on training 4-gram on 8B words of text
-typedef int    Count;
+typedef long   NgramIndex;    // KDV increased from an int, needed to train on large amounts of data
+typedef long   Count;         // KDV increased from an int, needed to train on large amounts of data
 typedef float  LProb;
 typedef double Prob;
 typedef double Param;
