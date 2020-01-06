@@ -217,7 +217,7 @@ KneserNeySmoothing::_Estimate(ProbVector &probs, ProbVector &bows) {
 
     // Compute discounts.
     ProbVector &discounts(probs);  // Reuse probs vector for discounts.
-    discounts = _discParams[min(_effCounts, _discOrder)];
+    discounts = _discParams[min(_effCounts, (Count) _discOrder)];  // KDV added cast
 
     // Compute backoff weights.
     bows.set(0);
@@ -253,7 +253,7 @@ KneserNeySmoothing::_EstimateMasked(const NgramLMMask *pMask,
 //    discounts.masked(discMask) = _discParams[min(_effCounts, _discOrder)];
     for (size_t i = 0; i < _effCounts.length(); i++)
         if (discMask[i])
-            discounts[i] = _discParams[std::min(_effCounts[i], (int)_discOrder)];
+	  discounts[i] = _discParams[std::min(_effCounts[i], (Count)_discOrder)]; // KDV changed cast from (int) to (Count)
 
     // Compute backoff weights.
     const BitVector &bowMask(pMask->BowMaskVectors[_order - 1]);
@@ -327,7 +327,7 @@ KneserNeySmoothing::_EstimateWeightedMasked(const NgramLMMask *pMask,
 //    discounts.masked(discMask) = _discParams[min(_effCounts, _discOrder)];
     for (size_t i = 0; i < _effCounts.length(); i++)
         if (discMask[i])
-            discounts[i] = _discParams[std::min(_effCounts[i], (int)_discOrder)];
+	  discounts[i] = _discParams[std::min(_effCounts[i], (Count)_discOrder)]; // KDV changed cast from (int) to (Count)
 
     // Compute backoff weights.
     const BitVector &bowMask(pMask->BowMaskVectors[_order - 1]);
