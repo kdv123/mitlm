@@ -236,7 +236,7 @@ NgramModel::SaveCounts(const vector<CountVector> &countVectors,
     // Write counts.
     StrVector   ngramWords(size());
     if (includeZeroOrder && countVectors[0].length() == 1)
-        fprintf(countsFile, "\t%i\n", countVectors[0][0]);
+        fprintf(countsFile, "\t%ld\n", countVectors[0][0]);
     for (size_t o = 1; o < countVectors.size(); ++o) {
         const CountVector &counts = countVectors[o];
         for (NgramIndex i = 0; i < (NgramIndex)countVectors[o].length(); ++i) {
@@ -246,7 +246,7 @@ NgramModel::SaveCounts(const vector<CountVector> &countVectors,
 		fputc(' ', countsFile);
 		fputs(ngramWords[j], countsFile);
             }
-            fprintf( countsFile, "\t%u\n", counts[i]);
+            fprintf( countsFile, "\t%ld\n", counts[i]);
         }
     }
 }
